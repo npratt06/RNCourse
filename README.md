@@ -4,4 +4,4 @@ This project houses the code that is being used to work through the React Native
 
 # Locally running the app
 
-`npm run start` will start the dev server locally
+`npm start` will start the dev server locally
