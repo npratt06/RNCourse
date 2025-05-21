@@ -6,13 +6,30 @@ import GoalInput from "./components/GoalInput";
 export default function App() {
     const [courseGoals, setCourseGoals] = useState([]);
 
+    const addGoalHandler = (enteredGoalText) => {
+        if (enteredGoalText === '') return;
+        setCourseGoals(currentCourseGoals => [...currentCourseGoals, {
+            id: Math.random().toString(),
+            text: enteredGoalText
+        }]);
+    }
+
+    const deleteGoalHandler = (goalId) => {
+        setCourseGoals(currentCourseGoals => currentCourseGoals.filter((goal) => {
+            return goal.id !== goalId
+        }));
+    }
+
     return (
         <View style={styles.appContainer}>
-            <GoalInput setCourseGoals={setCourseGoals}/>
+            <GoalInput addGoalHandler={addGoalHandler}/>
             <View style={styles.goalsContainer}>
-                <FlatList data={courseGoals} keyExtractor={item => item.key}
+                <FlatList data={courseGoals} keyExtractor={(item, index) => {
+                    return item.id;
+                }}
                           renderItem={itemData => {
-                              return <GoalItem text={itemData.item.text}/>;
+                              return <GoalItem text={itemData.item.text} id={itemData.item.id}
+                                               onDelete={deleteGoalHandler}/>;
                           }}
                 />
             </View>
